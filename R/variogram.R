@@ -1,8 +1,10 @@
+#' library(raster)
 #' X <- matrix(c(3,6,5,7,2,2,4,NaN,0), nrow=3, byrow=TRUE) ## input
 #' fftvario(X)
+#' r <- raster(system.file('external/test.grd', package='raster'))
+#' fftvario(as.matrix(r))
 #' @export
 fftvario <- function(X) {
-    browser()
     D <- 2*dim(X)-1 - dim(X)
     X <- do.call(rbind, c(list(X), rep(NA, D[1])))
     X <- do.call(cbind, c(list(X), rep(NA, D[2])))
@@ -24,7 +26,7 @@ fftvario <- function(X) {
 fftshift <- function(X) {
     f <- function(X) {
         lefthalf <- ceiling(ncol(X)/2)
-        cbind(X[, (lefthalf+1):nrow(X)], X[, 1:lefthalf])
+        cbind(X[, (lefthalf+1):ncol(X)], X[, 1:lefthalf])
     }
     X <- f(X)
     t(f(t(X)))
